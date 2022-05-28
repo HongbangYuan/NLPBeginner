@@ -31,8 +31,13 @@ indication get_order();
 
 int main() //主函数只负责判断指令为clock或其它，若是clock表示时间推移，调用fcfs函数执行指令；若不是clock指令，说明时间没有变化，不处理指令，不改变状态，只向链表中添加指令作为节点。
 {
+//    printf("Test the malloc function!");
+//    Node* newNode = malloc(sizeof(Node));
+//    printf("Testing finished!");
+//    Node* empty_head = NULL;
+//    addlist(empty_head,"counterwise",1);
     int total=10;//总站点数
-    int distance=3;//站间距离
+    int distance=3;//站间距离s
     int target=0;//目标站点指令
     int counterclockwise=0,clockwise=0;
     printf("Time:0\n");
@@ -112,7 +117,12 @@ int search(Node *head, char* instruction,int x)
 }
 Node* addlist(Node *head,char *instruction,int x)//尾插法
 {
+//    Node *newNode;
+//    Node newNodeStruct  ;
+//    Node *newNode = &newNodeStruct;
+//    Node* newNode = (Node *)malloc(sizeof(Node)*10);
     Node* newNode;
+    newNode = (Node*) malloc(sizeof(Node) * 10);
     strcpy(newNode->instruction,instruction);
     newNode->station=x;
     if(head==NULL)
@@ -261,12 +271,12 @@ Node* fcfs(Node* head,int distance)//该函数为按照先来先服务算法进�
                 }
                 else
                 {
-                    if((head->station*distance-curPos)<=(curPos-head->station*distance+10))
+                    if((head->station*distance-curPos)<=(curPos-head->station*distance+10*3))
                     {
                         direct=0;  //顺时针走
                         curPos++;
                     }
-                    else if((head->station*distance-curPos)>(curPos-head->station*distance+10))
+                    else if((head->station*distance-curPos)>(curPos-head->station*distance+10*3))
                     {
                         direct=1;//逆时针走
                         curPos--;
