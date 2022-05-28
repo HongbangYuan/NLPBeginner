@@ -194,3 +194,4 @@ cython_debug/
 
 # My Own
 proxylab-material/
+cmake-build-debug/
