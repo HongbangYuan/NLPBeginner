@@ -2,5 +2,6 @@
 cd build
 cmake .. && make
 echo "--------------------"
-./potter
+cd ../
+./build/potter 64.12.149.13
 
