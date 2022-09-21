@@ -59,7 +59,7 @@ def scrape_by_novel_id_and_chapter_num(novel_id,chapter_num,output_dir,leave=Fal
 
     result_file = "{}/novel_{}.txt".format(output_dir,novel_id)
     # print("Writing to file {}...".format(result_file))
-    with open(result_file, "w") as f:
+    with open(result_file, "w",encoding='utf-8') as f:
         for line in tqdm(all_text,leave=leave):
             f.write("{}\n".format(line[0]))
 
@@ -96,7 +96,7 @@ if __name__ == '__main__':
     # some settings
     output_dir = "new_novels"
     start_page = 1
-    end_page = 10
+    end_page = 5
 
     # novel infos
     print("Preparing to get novel infos...")
