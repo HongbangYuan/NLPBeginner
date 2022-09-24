@@ -178,19 +178,19 @@ if __name__ == '__main__':
     parser.add_argument("-l",'--language',type=str,help='language can be chinese or english',default='english')
     parser.add_argument('-d','--datapath', type=str, help='data source', required=True)
     parser.add_argument('-m','--mode',type=str,help='mode can be character or word',default='character',)
-    parser.add_argument('-p','--percentage',type=float,help="the proportion of all the texts used",default=1)
+    # parser.add_argument('-p','--percentage',type=float,help="the proportion of all the texts used",default=1)
     args = vars(parser.parse_args())
     print(args)
 
     language = args["language"]
     datapath = args["datapath"]
     mode = args["mode"]
-    percentage = args["percentage"]
+    # percentage = args["percentage"]
     if language not in ["english","chinese"]:
         raise ValueError("Language {} is not supported!".format(language))
     if mode not in ["character","word"]:
         raise ValueError("Mode {} is not supported!".format(mode))
-    assert percentage <= 1 and percentage >= 0
+    # assert percentage <= 1 and percentage >= 0
 
     mapping = {"chinese":read_novels,"english":read_english_novels}
 
@@ -198,10 +198,18 @@ if __name__ == '__main__':
     func = mapping[language]
     all_words = func(datapath,mode)
     print("Calculating entropy for language {} in mode {}...".format(language,mode))
-    some_words = all_words[:int(percentage * len(all_words))]
-    entropy = cal_entropy(some_words)
-    print("For language {} in mode {} using percentage {} the entropy is {}".format(language,mode,percentage,entropy))
+    results = []
+    percentages = [0.00001,0.0001,0.001,0.01,0.02,0.05,0.1,0.5,1]
+    for percentage in percentages:
+        some_words = all_words[:int(percentage * len(all_words))]
+        entropy = cal_entropy(some_words)
+        print("For language {} in mode {} using percentage {} the entropy is {}".format(language,mode,percentage,entropy))
+        results.append(round(entropy,3))
 
+    # print("Markdown Table")
+    print("|" + "|".join(list(map(lambda x:str(x),percentages))) + "|")
+    print("|" + "|".join([" --- " for _ in range(len(percentages))]) + "|")
+    print("|" + "|".join(list(map(lambda x:str(x),results))) + "|")
 
     # baike_file = "baike/data-baike.xlsx"
     # novel_path = "new_novels"
